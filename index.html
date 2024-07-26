@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Summary</title>
+</head>
+<body>
+  <div>
+    <h1>News Summary</h1>
+    <label for="country">Country:</label>
+    <select id="country">
+      <option value="Turkey">Turkey</option>
+      <option value="Japan">Japan</option>
+      <option value="USA">USA</option>
+      <option value="Australia">Australia</option>
+      <option value="Austria">Austria</option>
+      <option value="Belgium">Belgium</option>
+      <option value="Brazil">Brazil</option>
+      <option value="Canada">Canada</option>
+      <option value="Chile">Chile</option>
+      <option value="Czech">Czech</option>
+      <option value="Egypt">Egypt</option>
+      <option value="Finland">Finland</option>
+      <option value="France">France</option>
+      <option value="Germany">Germany</option>
+      <option value="Greece">Greece</option>
+      <option value="India">India</option>
+      <option value="Indonesia">Indonesia</option>
+      <option value="Ireland">Ireland</option>
+      <option value="Israel">Israel</option>
+      <option value="Korea">Korea</option>
+      <option value="Luxembourg">Luxembourg</option>
+      <option value="Netherlands">Netherlands</option>
+      <option value="Philippines">Philippines</option>
+      <option value="Russia">Russia</option>
+      <option value="Slovakia">Slovakia</option>
+      <option value="South Africa">South Africa</option>
+      <option value="Spain">Spain</option>
+      <option value="Spanish">Spanish</option>
+      <option value="Switzerland">Switzerland</option>
+      <option value="Thailand">Thailand</option>
+      <option value="Turky">Turky</option>
+      <option value="UK">UK</option>
+      <option value="United States">United States</option>
+    </select>
+    <button onclick="getSummary()">Get Summary</button>
+    <div id="summary"></div>
+  </div>
+
+  <script>
+    async function getSummary() {
+      const country = document.getElementById('country').value;
+
+      const response = await fetch('http://127.0.0.1:5000/get-news-summary', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ country }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        document.getElementById('summary').innerText = data.summary;
+      } else {
+        const errorData = await response.json();
+        document.getElementById('summary').innerText = 'Error: ' + errorData.error;
+      }
+    }
+  </script>
+</body>
+</html>
 
