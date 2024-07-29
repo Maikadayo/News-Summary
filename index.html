@@ -51,24 +51,31 @@
   <script>
     async function getSummary() {
       const country = document.getElementById('country').value;
+      console.log(`Selected country: ${country}`);
 
-      const response = await fetch('http://127.0.0.1:5000/get-news-summary', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ country }),
-      });
+      try {
+        const response = await fetch('http://127.0.0.1:5000/get-news-summary', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ country }),
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        document.getElementById('summary').innerText = data.summary;
-      } else {
-        const errorData = await response.json();
-        document.getElementById('summary').innerText = 'Error: ' + errorData.error;
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Response data:', data);
+          document.getElementById('summary').innerText = data.summary;
+        } else {
+          const errorData = await response.json();
+          console.error('Error data:', errorData);
+          document.getElementById('summary').innerText = 'Error: ' + errorData.error;
+        }
+      } catch (error) {
+        console.error('Fetch error:', error);
+        document.getElementById('summary').innerText = 'Error: ' + error.message;
       }
     }
   </script>
 </body>
 </html>
-
