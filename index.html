@@ -51,10 +51,10 @@
   <script>
     async function getSummary() {
       const country = document.getElementById('country').value;
-      console.log(`Selected country: ${country}`);
+      console.log(Selected country: ${country});
 
       try {
-        const response = await fetch('/get-news-summary', {
+        const response = await fetch('http://127.0.0.1:5000/get-news-summary', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
