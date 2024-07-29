@@ -66,6 +66,7 @@
       <option value="United Kingdom">United Kingdom</option>
       <option value="United States">United States</option>
     </select>
+    <textarea id="details" placeholder="Enter analysis details..." rows="4" cols="50"></textarea>
     <button onclick="getSummary()">Get Summary</button>
     <div id="summary"></div>
   </div>
@@ -79,7 +80,9 @@
   <script>
     async function getSummary() {
       const country = document.getElementById('country').value;
+      const details = document.getElementById('details').value;
       console.log(`Selected country: ${country}`);
+      console.log(`Details: ${details}`);
 
       try {
         const response = await fetch('http://127.0.0.1:5000/get-news-summary', {
@@ -87,7 +90,7 @@
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ country })
+          body: JSON.stringify({ country, details })
         });
 
         if (response.ok) {
@@ -118,7 +121,7 @@
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ country: userInput }),
+          body: JSON.stringify({ country: userInput, details: '' }),
         });
 
         if (response.ok) {
