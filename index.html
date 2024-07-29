@@ -8,7 +8,7 @@
     body {
       font-family: Arial, sans-serif;
     }
-    #chatbox {
+    #summary-box {
       width: 80%;
       max-width: 600px;
       margin: 20px auto;
@@ -16,19 +16,29 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-    .message {
+    textarea {
+      width: 100%;
+      padding: 10px;
       margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-    .user-message {
-      text-align: right;
+    button {
+      padding: 10px 20px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
     }
-    .bot-message {
-      text-align: left;
+    button:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-  <div>
+  <div id="summary-box">
     <h1>News Summary</h1>
     <label for="country">Country:</label>
     <select id="country">
@@ -71,12 +81,6 @@
     <div id="summary"></div>
   </div>
 
-  <div id="chatbox">
-    <div id="messages"></div>
-    <input type="text" id="user-input" placeholder="Enter country name..." />
-    <button onclick="sendMessage()">Send</button>
-  </div>
-
   <script>
     async function getSummary() {
       const country = document.getElementById('country').value;
@@ -106,47 +110,6 @@
         console.error('Fetch error:', error);
         document.getElementById('summary').innerText = 'Error: ' + error.message;
       }
-    }
-
-    async function sendMessage() {
-      const userInput = document.getElementById('user-input').value;
-      if (userInput.trim() === '') {
-        return;
-      }
-      addMessage('user', userInput);
-
-      try {
-        const response = await fetch('http://127.0.0.1:5000/get-news-summary', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ country: userInput, details: '' }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Response data:', data);
-          addMessage('bot', data.summary);
-        } else {
-          const errorData = await response.json();
-          console.error('Error data:', errorData);
-          addMessage('bot', 'Error: ' + errorData.error);
-        }
-      } catch (error) {
-        console.error('Fetch error:', error);
-        addMessage('bot', 'Error: ' + error.message);
-      }
-
-      document.getElementById('user-input').value = '';
-    }
-
-    function addMessage(sender, message) {
-      const messageElement = document.createElement('div');
-      messageElement.classList.add('message');
-      messageElement.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
-      messageElement.textContent = message;
-      document.getElementById('messages').appendChild(messageElement);
     }
   </script>
 </body>
