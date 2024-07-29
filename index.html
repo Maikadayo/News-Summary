@@ -54,7 +54,7 @@
       console.log(`Selected country: ${country}`);
 
       try {
-        const response = await fetch('http://127.0.0.1:5000/get-news-summary', {
+        const response = await fetch('/get-news-summary', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -79,3 +79,4 @@
   </script>
 </body>
 </html>
+
